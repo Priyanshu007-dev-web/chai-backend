@@ -1,3 +1,4 @@
+// file is dedicate to the fram and structure errors 
 class ApiError extends Error {
     constructor(
         statusCode,

@@ -1,3 +1,4 @@
+// file for dedicate to frame the response of db
 class ApiResponse {
     constructor(statusCode, data, message = "Success") {
         this.statusCode = statusCode

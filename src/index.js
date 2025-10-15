@@ -1,3 +1,4 @@
+// main file of the project '
 // import 'dotenv/config'
 import dotenv from 'dotenv'
 import connectDB from './db/index.js';
@@ -7,6 +8,7 @@ dotenv.config({
     path: './env'
 })
 
+// server creation 
 connectDB()
     .then(() => {
         app.listen(process.env.PORT || 8000, () => {
