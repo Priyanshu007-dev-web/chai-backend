@@ -1,0 +1,31 @@
+import { v2 as cloudinary } from 'cloudinary'
+import fs from 'fs'
+
+// Configuration
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: CLOUDINARY_API_KEY,
+    api_secret: CLOUDINARY_API_SECRET // Click 'View API Keys' above to copy your API secret
+});
+
+// reusable method for upload media file on cloudinery 
+const uploadOnCloudinary = async (localFilePath) => {
+    try {
+        if (!localFilePath) return null
+        // upload file on cloudinary 
+        const response  = await cloudinary.uploader.upload(localFilePath, {
+            resource_type:"auto"
+        })
+        // file has been uploaded successfully
+        console.log("File is uploded on cloudinary ", response.url);
+        return response;
+    } catch (error) {
+        fs.unlinkSync(localFilePath) // remove the locally saved temporary file as the operation got failed        
+    }
+
+}
+
+// cloudinary.v2.uploader.upload(" https://res.cloudinary.com/demo/image/upload/getting-started/shoes.jpg ",
+//     { public_id: "olympic_flag" },
+//     function (error, result) { console.log(result); });
+export { uploadOnCloudinary }

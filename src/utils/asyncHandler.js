@@ -1,10 +1,11 @@
-const { response } = require("express")
+// const { response } = require("express")
+import express from "express";
 const asynchandler = (requestHandler) => {
-    (req, res, next) => {
+   return (req, res, next) => {
         Promise.resolve(requestHandler(req, res, next)).catch((err)=>next(err))
     }
 }
-export { asynchandler } 
+export default asynchandler 
 
 // const asynchandler = (fn) => async(req, res, next) => {
 //     try {
