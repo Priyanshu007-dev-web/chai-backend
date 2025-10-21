@@ -4,8 +4,8 @@ import fs from 'fs'
 // Configuration
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: CLOUDINARY_API_KEY,
-    api_secret: CLOUDINARY_API_SECRET // Click 'View API Keys' above to copy your API secret
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET // Click 'View API Keys' above to copy your API secret
 });
 
 // reusable method for upload media file on cloudinery 
@@ -13,8 +13,8 @@ const uploadOnCloudinary = async (localFilePath) => {
     try {
         if (!localFilePath) return null
         // upload file on cloudinary 
-        const response  = await cloudinary.uploader.upload(localFilePath, {
-            resource_type:"auto"
+        const response = await cloudinary.uploader.upload(localFilePath, {
+            resource_type: "auto"
         })
         // file has been uploaded successfully
         console.log("File is uploded on cloudinary ", response.url);

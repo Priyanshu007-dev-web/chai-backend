@@ -5,11 +5,10 @@ class ApiError extends Error {
         massage = "Something Went Wrong",
         errors = [],
         stack = ""
-        
     ) {
         super(massage)
         this.statusCode = statusCode
-        this.data = null 
+        this.data = null
         this.massage = massage
         this.success = false
         this.errors = errors
@@ -21,3 +20,4 @@ class ApiError extends Error {
         }
     }
 }
+export { ApiError }

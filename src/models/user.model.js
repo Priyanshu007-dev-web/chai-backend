@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
+import { type } from "os";
 
 const userSchema = new Schema({
     username: {
@@ -36,14 +37,18 @@ const userSchema = new Schema({
         ref: "Video"
     }],
     password: {
+        type: String,
         required: [true, "Password is required"]
     },
+    refreshToken: {
+        type:String
+    }
 }, { timestamps: true })
 
 // Password incryption primery then save it Save
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
-    this.password = bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 
@@ -67,7 +72,7 @@ userSchema.methods.generateAccessToken = function () {
 userSchema.methods.generateRefreshToken = function () {
     jwt.sign({
         _id: this._id,
-        
+
     },
         process.env.REFRESH_TOKEN_SECRET,
         {
