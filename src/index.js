@@ -5,7 +5,7 @@ import connectDB from './db/index.js';
 import { app } from './app.js';
 // manually path defind at of environmet varieble
 dotenv.config({
-    path: './env'
+    path: './.env'
 })
 
 // server creation 
