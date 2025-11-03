@@ -156,8 +156,11 @@ const logoutUser = asynchandler(async (req, res) => {
     User.findByIdAndUpdate(
         req.body._id,
         {
-            $set: {
-                refreshToken: undefined
+            // $set: {
+            //   refreshToken:undefined  
+            // },
+            $unset: {
+                refreshToken: 1 // this removes the field from document 
             }
         },
         {
@@ -244,7 +247,8 @@ const getCurrentUser = asynchandler(async (req, res) => {
 })
 
 const updateAccountDetails = asynchandler(async (req, res) => {
-    const { fullName, email } = req.body
+    const { fullName, email } = req.body;
+    console.log("/update-account", fullName, email)
 
     if (!fullName || !email) {
         throw new ApiError(400, "All fields are reuqired")
@@ -280,7 +284,7 @@ const updateUserAvatar = asynchandler(async (req, res) => {
         throw new ApiError(400, "Error while uploading on avatar")
     }
 
-    await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
             set: {
@@ -289,6 +293,10 @@ const updateUserAvatar = asynchandler(async (req, res) => {
         },
         { new: true }
     ).select("-password")
+
+    return res
+        .status(200)
+        .json(new ApiError(200, user, "Avatar image Apdated"))
 })
 
 const updateUserCoverImage = asynchandler(async (req, res) => {
@@ -303,7 +311,7 @@ const updateUserCoverImage = asynchandler(async (req, res) => {
         throw new ApiError(400, "Error while uploading Cover Image")
     }
 
-    await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
             set: {
@@ -312,6 +320,10 @@ const updateUserCoverImage = asynchandler(async (req, res) => {
         },
         { new: true }
     ).select("-password")
+
+    return res
+        .status(200)
+    .json(new ApiError(200, user, "Updated Cover Image"))
 })
 
 const getUserChannelProfile = asynchandler(async (req, res) => {
@@ -423,7 +435,7 @@ const getWatchHistory = asynchandler(async (req, res) => {
                     {
                         $addFields: {
                             owner: {
-                                $first:"$owner"
+                                $first: "$owner"
                             }
                         }
                     }
@@ -434,9 +446,7 @@ const getWatchHistory = asynchandler(async (req, res) => {
 
     return res
         .status(200)
-        .json(
-        new ApiResponse(200, user[0].watchHistory, "Watvh history fetched successfully")
-    )
+        .json(new ApiResponse(200, user[0].watchHistory, "Watvh history fetched successfully"))
 })
 
 
