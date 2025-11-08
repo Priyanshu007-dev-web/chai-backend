@@ -15,11 +15,12 @@ app.use(cookieParser())
 
 // import routes
 import userRouter from "./routes/user.routes.js"
+import commentRouter from "./routes/comment.routes.js"
+import videoRouter from "./routes/video.routes.js";
 
-// routes declaration
-//avoiding "app.get() syntex becouse routes and controllers are defind into another folder
-// Routes
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/videos", videoRouter);
+app.use("/api/v1/comments", commentRouter);
 
 // route's full figure 'http://localhost:8000/api/v1/users/register'
 export { app }
